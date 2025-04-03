@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Russian Roulette - JavaScript Game</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .game-container { text-align: center; margin-top: 50px; }
+        button { padding: 10px 20px; font-size: 16px; }
+        .status { margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="game-container">
+    <h1>Russian Roulette - JavaScript Game</h1>
+
+    <h2>Score</h2>
+    <p>Your Score: <span id="winScore">0</span></p>
+    <p>PC Score: <span id="pcScore">0</span></p>
+    <p>Remaining Turns: <span id="gameScore">5</span></p>
+
+    <div class="status">
+        <h3 id="result">Make your move!</h3>
+        <p id="gameOverMessage"></p>
+    </div>
+
+    <h3>Choose a chamber (1-6):</h3>
+    <input type="number" id="userChoice" min="1" max="6" required>
+    <button id="playTurnBtn">Play Turn</button>
+
+    <button id="resetBtn">Reset Game</button>
+</div>
+
+<script src="game.js"></script>
+
+<script>
+    // Game state variables
+    let resultElement = document.getElementById("result");
+    let winScoreElement = document.getElementById("winScore");
+    let pcScoreElement = document.getElementById("pcScore");
+    let gameScoreElement = document.getElementById("gameScore");
+    let gameOverMessageElement = document.getElementById("gameOverMessage");
+    let playTurnBtn = document.getElementById("playTurnBtn");
+    let resetBtn = document.getElementById("resetBtn");
+
+    // Bind game functions to buttons
+    playTurnBtn.addEventListener("click", function() {
+        let userChoice = parseInt(document.getElementById("userChoice").value);
+        if (userChoice < 1 || userChoice > 6) {
+            alert("Please select a number between 1 and 6.");
+            return;
+        }
+
+        let result = playTurn(userChoice);
+        resultElement.textContent = result;
+        winScoreElement.textContent = winScore;
+        pcScoreElement.textContent = pcScore;
+        gameScoreElement.textContent = gameScore;
+
+        if (gameScore === 0) {
+            gameOverMessageElement.textContent = "Game Over! Click Reset to Play Again.";
+            playTurnBtn.disabled = true;
+        }
+    });
+
+    resetBtn.addEventListener("click", function() {
+        resetGame();
+        winScoreElement.textContent = winScore;
+        pcScoreElement.textContent = pcScore;
+        gameScoreElement.textContent = gameScore;
+        resultElement.textContent = "Make your move!";
+        gameOverMessageElement.textContent = "";
+        playTurnBtn.disabled = false;
+    });
+</script>
+
+</body>
+</html>
